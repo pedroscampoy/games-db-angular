@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment as env } from 'src/environments/environment';
 
 @Injectable()
 export class HttpHeadersInterceptor implements HttpInterceptor {
@@ -17,11 +18,11 @@ export class HttpHeadersInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     req = req.clone({
       setHeaders: {
-        'x-rapidapi-key': '82162c931emsh80f995513e5e260p1cc07bjsnba617876da7b',
+        'x-rapidapi-key': env.X_RAPIDAPI_KEY,
         'x-rapidapi-host': 'rawg-video-games-database.p.rapidapi.com',
       },
       setParams: {
-        key: 'e40e743af2c94b0c916a8aa618fb4473',
+        key: env.X_RAPIDAPI_PARAM_KEY,
       },
     });
     return next.handle(req);
