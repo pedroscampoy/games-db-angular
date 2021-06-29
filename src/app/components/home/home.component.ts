@@ -1,7 +1,7 @@
 import { HttpService } from './../../services/http.service';
 import { Component, OnInit } from '@angular/core';
 import { APIResponse, Game } from 'src/app/models';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private httpService: HttpService,
+    private router: Router,
     private activatedRoute: ActivatedRoute
   ) {}
 
@@ -35,7 +36,20 @@ export class HomeComponent implements OnInit {
       .getGameList(sort, search)
       .subscribe((gameList: APIResponse<Game>) => {
         this.games = gameList.results;
-        console.log(gameList);
+        console.log(gameList.results);
       });
+  }
+
+  openGameDetails(id: string): void {
+    this.router.navigate(['details', id]);
+  }
+
+  ngOnDestroy(): void {
+    if (this.gameSub) {
+      this.gameSub.unsubscribe();
+    }
+    if (this.routeSub) {
+      this.routeSub.unsubscribe();
+    }
   }
 }
